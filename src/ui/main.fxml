@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Controller">
+   <padding><Insets bottom="20" left="25" right="25" top="10" /></padding>
+
+   <Text id="welcomeText" text="请根据需求选择相关参数" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+
+   <Label text="最大数值(5-100):" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+   <TextField fx:id="maxNumber" promptText="生成算式的最大值。加法是和的最大值。减法是减数最大值。" text="100" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+   <Label text="题目数量(20-1000):" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+   <TextField fx:id="exTotal" promptText="生成算式题目的数量" text="50" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+   <Label text="运算类型:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+    <CheckBox fx:id="math_addition" selected="true" text="+" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <CheckBox fx:id="math_subtraction" selected="true" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+   <CheckBox fx:id="math_multiplication" selected="false" text="*(1-9 only)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+   <CheckBox fx:id="math_division" selected="false" disable="true" text="/" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+   <Label text="难度(1-最难,3-简单):" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+
+   <ComboBox fx:id="level" promptText="选择题目难度级别" GridPane.columnIndex="1" GridPane.rowIndex="6">
+      <items>
+         <FXCollections fx:factory="observableArrayList">
+            <String fx:value="1" />
+            <String fx:value="2" />
+            <String fx:value="3" />
+         </FXCollections>
+      </items>
+      <value>
+         <String fx:value="2" />
+      </value>
+   </ComboBox>
+
+   <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <Button onAction="#handleSubmitButtonAction" text="生成" />
+   </HBox>
+
+   <Text fx:id="resultText" fill="red" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+
+</GridPane>
