@@ -7,7 +7,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import math.OperatorFactory;
+import math.OperatorEnum;
 import math.RandomGen;
 import page.TextGenerator;
 import page.HtmlGenerator;
@@ -65,13 +65,13 @@ public class Controller {
       generator = new TextGenerator();
 
     if (math_addition.isSelected()) {
-      generator.addOperator(OperatorFactory.getOperatorInstance('+'));
+      generator.addOperator(OperatorEnum.retrieveOperator('+'));
     }
     if (math_subtraction.isSelected()) {
-      generator.addOperator(OperatorFactory.getOperatorInstance('-'));
+      generator.addOperator(OperatorEnum.retrieveOperator('-'));
     }
     if (math_multiplication.isSelected()) {
-      generator.addOperator(OperatorFactory.getOperatorInstance('/'));
+      generator.addOperator(OperatorEnum.retrieveOperator('*'));
     }
 //    if (math_subtraction.isSelected()) {
 //      generator.addOperator(OperatorFactory.getOperatorInstance('-'));

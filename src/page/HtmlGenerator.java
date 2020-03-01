@@ -28,6 +28,7 @@ public class HtmlGenerator extends RandomGen.Generator {
     //htmlBuff.append("<H3 align='center'>"+ maxNumber+"以内加减法测试习题。共"+exTotal+"道题。</H3><HR>\r\n");
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
     for (int i=1; i<=rowCount; i++) {
+    	//generate a line of fomular
       genHtmlTrOfExercise();
       addEmptyLline();
       if (i%ROW_PER_PAGE==0) {
@@ -66,17 +67,17 @@ public class HtmlGenerator extends RandomGen.Generator {
     htmlBuff.append("</tr>");
   }
   
-  protected String parseForlumar (MathFomular f) {
-    return getAllignStr(f.getIntFirstNum(), SPACE) + SPACE 
-    		+ f.getOperator() 
-    		+ getAllignStr(f.getIntSecondNum(), SPACE) + SPACE
+  protected String parseFomular (MathFomular f) {
+    return f.getIntFirstNum() + SPACE 
+    		+ f.getOperator().getMathOperator()+ SPACE
+    		+ f.getIntSecondNum() + SPACE
     		+ " = "+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+SPACE+SPACE+ ")";
   }
 
   protected void genHader(int maxNumber, int exTotal) {
     htmlBuff.append("<html><head>\n");
     htmlBuff.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n");
-    htmlBuff.append("<title>测试文档</title>\r\n");
+    htmlBuff.append("<title>数学练习题</title>\r\n");
     htmlBuff.append("<style type=\"text/css\">\r\n");
     htmlBuff.append("table{");
     htmlBuff.append("      table-layout: fixed; ");

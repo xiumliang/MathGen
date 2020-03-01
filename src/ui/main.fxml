@@ -33,7 +33,7 @@
     <CheckBox fx:id="math_subtraction" selected="true" text="-" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
    <CheckBox fx:id="math_multiplication" selected="false" text="*(1-9 only)" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-   <CheckBox fx:id="math_division" selected="false" disable="true" text="/" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+   <CheckBox fx:id="math_division" selected="false" disable="true" text="/ My kids are not ready for this" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
    <Label text="难度(1-最难,3-简单):" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 

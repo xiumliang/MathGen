@@ -7,7 +7,7 @@ public class MathFomular {
 	
   private String firstNum;
   private String secondNum;
-  private String Operator;  
+  private Operator Operator;  
   
 	public void setFirstNum(String firstNum) {
 		this.firstNum = firstNum;
@@ -17,7 +17,7 @@ public class MathFomular {
 		this.secondNum = secondNum;
 	}
 
-	public void setOperator(String operator) {
+	public void setOperator(Operator operator) {
 		Operator = operator;
 	}
 
@@ -37,7 +37,7 @@ public class MathFomular {
     return Integer.parseInt(secondNum);
   }
 
-  public String getOperator() {
+  public Operator getOperator() {
     return Operator;
   }
 
@@ -49,7 +49,7 @@ public class MathFomular {
   }
 
 	public String toFormularString() {
-		return firstNum + Operator + secondNum;
+		return firstNum + Operator.getMathOperator() + secondNum;
 	}
 
   @Override
@@ -59,13 +59,13 @@ public class MathFomular {
     if (!(o instanceof MathFomular))
       return false;
 
-    MathFomular that = (MathFomular) o;
+    MathFomular f = (MathFomular) o;
 
-    if (!firstNum.equals(that.firstNum))
+    if (!firstNum.equals(f.firstNum))
       return false;
-    if (!secondNum.equals(that.secondNum))
+    if (!secondNum.equals(f.secondNum))
       return false;
-    return Operator.equals(that.Operator);
+    return Operator.getOperator()==f.Operator.getOperator();
 
   }
 

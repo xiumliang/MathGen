@@ -45,9 +45,9 @@ public class TextGenerator extends RandomGen.Generator {
     return true;
   }
 
-  protected String parseForlumar (MathFomular f) {
+  protected String parseFomular (MathFomular f) {
     return getAllignStr(f.getIntFirstNum(), ""+SPACE) + SPACE 
-    		+ f.getOperator() 
+    		+ f.getOperator().getMathOperator()
     		+ getAllignStr(f.getIntSecondNum(), ""+SPACE) + SPACE
     		+ " = "+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+ ")";
   }
