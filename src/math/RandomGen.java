@@ -62,7 +62,7 @@ public class RandomGen {
       }
 
       f.setFirstNum(String.valueOf(a));
-      f.setOperator("+");
+      f.setOperator(OperatorEnum.ADD);
       f.setSecondNum(String.valueOf(b));
       return f;
     }
@@ -78,28 +78,56 @@ public class RandomGen {
       }
 
       f.setFirstNum(String.valueOf(a));
-      f.setOperator("-");
+      f.setOperator(OperatorEnum.SUB);
+      f.setSecondNum(String.valueOf(b));
+      return f;
+    }
+    
+    public MathFomular generateMultiplication() {
+    	MathFomular f = new MathFomular();
+      int a = r.nextInt(9)+1;
+      int b = r.nextInt(9)+1;
+
+      for(int i=0; checkRemoveRatio(i, a, b); i++) {
+        a = r.nextInt(9)+1;
+        b = r.nextInt(9)+1;
+      }
+
+      f.setFirstNum(String.valueOf(a));
+      f.setOperator(OperatorEnum.MUL);
       f.setSecondNum(String.valueOf(b));
       return f;
     }
 
-    protected abstract String parseForlumar (MathFomular f);
+    /*
+     * the impl of parseFomular may be diverse
+     * according to the format it finally printout.
+     */
+    protected abstract String parseFomular (MathFomular f);
     
     public String generateExercise() {
       String exercise = "";
       do {
-        if (isAddition()) {
-          exercise = parseForlumar(generateAddition());
-        } else {
-          exercise = parseForlumar(generateSubtraction());
-        }
+      	switch ((OperatorEnum)randomOperator()) {
+      		case ADD:
+      			exercise = parseFomular(generateAddition());
+      			break;
+      		case SUB:
+      			exercise = parseFomular(generateSubtraction());
+      			break;
+      		case MUL:
+      			exercise = parseFomular(generateMultiplication());
+      			break;
+      		default :
+      				System.out.println("Invalid operator!");
+      	}
       } while (mathQ.contains(exercise));
       mathQ.add(exercise);
       return exercise;
     }
     
-    protected boolean isAddition() {
-      return r.nextBoolean();
+    private Operator randomOperator() {
+    	return operatorList.get(r.nextInt(operatorList.size()));
     }
 
     private boolean checkRemoveRatio (int i, int a, int b) {
@@ -113,9 +141,6 @@ public class RandomGen {
     }
 
     public void addOperator(Operator operator) {
-      if (!OperatorFactory.checkOperator(operator.getOperator()))
-        throw new IllegalArgumentException("错误的运算符[" + operator + "]");
-
       this.operatorList.add(operator);
     }
 
