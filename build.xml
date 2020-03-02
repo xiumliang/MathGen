@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<project name="MathGen" default="package">
+	<property name="build.dir" value="build"/>
+	<property name="classes.dir" value="classes"/>
+	<property name="app.name" value="MathGen"/>
+	<property name="main.class" value="ui.Main"/>
+	
+	<target name="all" depends="package,run"/>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="compile">
+		<echo message="start compile" />
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="src" destdir="${classes.dir}">
+			<compilerarg line="-encoding UTF-8"/>
+		</javac>
+	</target>
+
+	<target name="package" depends="clean,compile">
+		<echo message="start package" />
+		<copy todir="${classes.dir}/ui" file="src/ui/main.fxml"/>
+		<jar basedir="${classes.dir}" destfile="build/${app.name}.jar">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0" />
+				<attribute name="Main-Class" value="${main.class}" />
+				<attribute name="Class-Path" value="" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run">
+		<echo message="run the application" />
+		<java classname="${main.class}" fork="yes" />
+	</target>
+
+	
+	<target name="usage">
+		<echo>
+	===============================================================
+	    Targets of the test generator:
+
+	    - all         : clean, compile, package, then run the 
+			                generator.
+	    - clean       : delete all build out files.
+	    - compile     : Build test generator.
+	    - package     : Create an executable jar of test generator 
+			            application.
+        - run         Run the application
+	===============================================================
+		</echo>
+	</target>
+</project>
