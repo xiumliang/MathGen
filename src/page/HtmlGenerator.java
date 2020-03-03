@@ -68,9 +68,9 @@ public class HtmlGenerator extends RandomGen.Generator {
   }
   
   protected String parseFomular (MathFomular f) {
-    return f.getIntFirstNum() + SPACE 
+    return getAllignStr(f.getIntFirstNum(), SPACE) + SPACE 
     		+ f.getOperator().getMathOperator()+ SPACE
-    		+ f.getIntSecondNum() + SPACE
+    		+ getAllignStr(f.getIntSecondNum(), SPACE) + SPACE
     		+ " = "+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+SPACE+SPACE+ ")";
   }
 
