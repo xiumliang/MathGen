@@ -79,12 +79,6 @@ public class Controller {
     
     generator.setLevel(Integer.parseInt(level.getValue().toString()) );
 
-    /*
-    System.out.println("mathAdd="+ math_addition.isSelected());
-    System.out.println("mathSub="+ math_subtraction.isSelected());
-    
-    */
-
     generator.generate(file, Integer.parseInt(maxNumber.getText()), Integer.parseInt(exTotal.getText()));
     resultText.setText(exTotal.getText()+"道习题已生成,最大值是"+maxNumber.getText()+".\r\n 生成文件位于:"+file);
   }
