@@ -12,7 +12,9 @@ import math.RandomGen;
 import page.TextGenerator;
 import page.HtmlGenerator;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class Controller {
@@ -81,6 +83,13 @@ public class Controller {
 
     generator.generate(file, Integer.parseInt(maxNumber.getText()), Integer.parseInt(exTotal.getText()));
     resultText.setText(exTotal.getText()+"道习题已生成,最大值是"+maxNumber.getText()+".\r\n 生成文件位于:"+file);
+    if (Desktop.isDesktopSupported())
+	    try {
+				Desktop.getDesktop().open(file);
+			} catch (IOException e) {
+				System.out.println("打开生成文件出错。");
+				e.printStackTrace();
+			}
   }
 
   private boolean checkValues() {

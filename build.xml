@@ -4,7 +4,7 @@
 	<property name="classes.dir" value="classes"/>
 	<property name="app.name" value="MathGen"/>
 	<property name="main.class" value="ui.Main"/>
-	
+
 	<target name="all" depends="package,run"/>
 
 	<target name="clean">
@@ -31,14 +31,18 @@
 		</jar>
 	</target>
 
-	<target name="run">
+	<target name="run" depends="compile">
 		<echo message="run the application" />
-		<java classname="${main.class}" fork="yes" />
-	</target>
+		<java classname="${main.class}" fork="yes">
+			<classpath>
+				<pathelement path="${classes.dir}" />
+			</classpath>
+			</java>
+		</target>
 
-	
-	<target name="usage">
-		<echo>
+
+		<target name="usage">
+			<echo>
 	===============================================================
 	    Targets of the test generator:
 
@@ -51,5 +55,5 @@
         - run         Run the application
 	===============================================================
 		</echo>
-	</target>
-</project>
+		</target>
+	</project>
