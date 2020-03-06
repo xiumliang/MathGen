@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="MathGen" default="package">
+<project name="MathGen" default="all">
 	<property name="build.dir" value="build"/>
 	<property name="classes.dir" value="classes"/>
 	<property name="app.name" value="MathGen"/>
@@ -21,7 +21,6 @@
 
 	<target name="package" depends="clean,compile">
 		<echo message="start package" />
-		<copy todir="${classes.dir}/ui" file="src/ui/main.fxml"/>
 		<jar basedir="${classes.dir}" destfile="build/${app.name}.jar">
 			<manifest>
 				<attribute name="Manifest-Version" value="1.0" />
