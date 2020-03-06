@@ -1,7 +1,6 @@
 package ui;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -18,23 +17,8 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class Controller {
+	private File outputFile = null;
 
-  @FXML
-  private Text resultText;
-  @FXML
-  private TextField maxNumber;
-  @FXML
-  private TextField exTotal;
-  @FXML
-  private CheckBox math_addition;
-  @FXML
-  private CheckBox math_subtraction;
-  @FXML
-  private CheckBox math_multiplication;
-  @FXML
-  private ComboBox level;
-
-  @FXML
   protected void handleSubmitButtonAction(ActionEvent event) {
     if (!checkValues())
       return;
@@ -49,7 +33,7 @@ public class Controller {
     fileChooser.setInitialDirectory(
         new File(System.getProperty("user.home"))
     );
-    File file = fileChooser.showSaveDialog(Main.getStage());
+    File file = fileChooser.showSaveDialog(Main.getMainStage());
     if (file != null) {
       System.out.println(file);
     }
@@ -57,32 +41,38 @@ public class Controller {
     RandomGen.Generator generator = null;
 
     String extName = getExtName(file);
+		if (extName == null) {
+			getMainStage().getResultText().setText("");
+			return;
+		} else if ("html".equalsIgnoreCase(extName))
+			generator = new HtmlGenerator();
+		else
+			generator = new TextGenerator();
 
-    if (extName == null) {
-      resultText.setText("");
-      return;
-    } else if ("html".equalsIgnoreCase(extName)) {
-        generator = new HtmlGenerator();
-    } else
-      generator = new TextGenerator();
-
-    if (math_addition.isSelected()) {
+    if (getMainStage().getMathAddition().isSelected()) {
       generator.addOperator(OperatorEnum.retrieveOperator('+'));
     }
-    if (math_subtraction.isSelected()) {
+    if (getMainStage().getMathSubtraction().isSelected()) {
       generator.addOperator(OperatorEnum.retrieveOperator('-'));
     }
-    if (math_multiplication.isSelected()) {
+    if (getMainStage().getMathMultiplication().isSelected()) {
       generator.addOperator(OperatorEnum.retrieveOperator('*'));
     }
 //    if (math_subtraction.isSelected()) {
 //      generator.addOperator(OperatorFactory.getOperatorInstance('-'));
 //    }
     
-    generator.setLevel(Integer.parseInt(level.getValue().toString()) );
+    generator.setLevel(Integer.parseInt(getMainStage().getLevel().getValue().toString()) );
 
-    generator.generate(file, Integer.parseInt(maxNumber.getText()), Integer.parseInt(exTotal.getText()));
-    resultText.setText(exTotal.getText()+"道习题已生成,最大值是"+maxNumber.getText()+".\r\n 生成文件位于:"+file);
+    generator.generate(file, 
+    		Integer.parseInt(getMainStage().getMaxNumber().getText()), 
+    		Integer.parseInt(getMainStage().getTotalMath().getText()));
+    
+    getMainStage().getResultText().setText(
+    		getMainStage().getTotalMath().getText()+"道习题已生成.");
+    
+    getMainStage().getOutFileText().setText("文件:"+file);
+    outputFile = file;
     if (Desktop.isDesktopSupported())
 	    try {
 				Desktop.getDesktop().open(file);
@@ -93,17 +83,17 @@ public class Controller {
   }
 
   private boolean checkValues() {
-    if (!isNumeric(maxNumber.getText())
-        || (Integer.parseInt(maxNumber.getText())>100)
-        || (Integer.parseInt(maxNumber.getText())<5)){
-      resultText.setText("最大数值填写有误,请填写5-100之间的数字");
+    if (!isNumeric(getMainStage().getMaxNumber().getText())
+        || (Integer.parseInt(getMainStage().getMaxNumber().getText())>100)
+        || (Integer.parseInt(getMainStage().getMaxNumber().getText())<5)){
+    	getMainStage().getResultText().setText("最大数值填写有误,请填写5-100之间的数字");
       return false;
     }
 
-    if (!isNumeric(exTotal.getText())
-        || (Integer.parseInt(exTotal.getText())>1000)
-        || (Integer.parseInt(exTotal.getText())<20)){
-      resultText.setText("题目数量填写有误,请填写20-1000之间的数字");
+    if (!isNumeric(getMainStage().getTotalMath().getText())
+        || (Integer.parseInt(getMainStage().getTotalMath().getText())>1000)
+        || (Integer.parseInt(getMainStage().getTotalMath().getText())<20)){
+    	getMainStage().getResultText().setText("题目数量填写有误,请填写20-1000之间的数字");
       return false;
     }
 
@@ -141,4 +131,12 @@ public class Controller {
     }
     return filename;
   }
+  
+  private MainStage getMainStage() {
+  	return Main.getMainStage();
+  }
+
+	protected File getOutputFile() {
+		return outputFile;
+	}
 }

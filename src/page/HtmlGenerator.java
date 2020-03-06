@@ -71,7 +71,7 @@ public class HtmlGenerator extends RandomGen.Generator {
     return getAllignStr(f.getIntFirstNum(), SPACE) + SPACE 
     		+ f.getOperator().getMathOperator()+ SPACE
     		+ getAllignStr(f.getIntSecondNum(), SPACE) + SPACE
-    		+ " = "+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+SPACE+SPACE+ ")";
+    		+ "="+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+SPACE+SPACE+ ")";
   }
 
   protected void genHader(int maxNumber, int exTotal) {

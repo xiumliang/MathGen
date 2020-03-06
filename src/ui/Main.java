@@ -1,32 +1,24 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private static Stage stage = null;
+	private static MainStage mainStage = null;
+	private static Controller controller = null;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setTitle("ExerciseGen");
-        primaryStage.setScene(new Scene(root, 500, 360));
-        primaryStage.show();
-        Main.setStage(primaryStage);
-    }
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		controller = new Controller();
+		mainStage = new MainStage();
+		mainStage.showStage();
+	}
 
-    public static Stage getStage() {
-        return stage;
-    }
+	protected static MainStage getMainStage() {
+		return mainStage;
+	}
 
-    public static void setStage(Stage stage) {
-        Main.stage = stage;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+	protected static Controller getController() {
+		return controller;
+	}
 }
