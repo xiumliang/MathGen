@@ -58,7 +58,7 @@ public class Controller {
     		Integer.parseInt(getMainStage().getTotalMath().getText()));
     
     getMainStage().getResultText().setText(getMainStage().getTotalMath().getText()+"道习题已生成.");
-    getMainStage().getOutFileText().setText("文件:"+file);
+    getMainStage().getOutFileText().setText("双击打卡文件:\r\n"+file);
     outputFile = file;
     if (Desktop.isDesktopSupported())
 	    try {
@@ -73,14 +73,14 @@ public class Controller {
     if (!isNumeric(getMainStage().getMaxNumber().getText())
         || (Integer.parseInt(getMainStage().getMaxNumber().getText())>100)
         || (Integer.parseInt(getMainStage().getMaxNumber().getText())<5)){
-    	getMainStage().getResultText().setText("最大数值填写有误,请填写5-100之间的数字");
+    	getMainStage().getMaxNumberValidText().setText("最大数值填写有误,请填写5-100之间的数字");
       return false;
     }
 
     if (!isNumeric(getMainStage().getTotalMath().getText())
         || (Integer.parseInt(getMainStage().getTotalMath().getText())>1000)
         || (Integer.parseInt(getMainStage().getTotalMath().getText())<20)){
-    	getMainStage().getResultText().setText("题目数量填写有误,请填写20-1000之间的数字");
+    	getMainStage().getTotalMathValidText().setText("题目数量填写有误,请填写20-1000之间的数字");
       return false;
     }
 

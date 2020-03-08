@@ -21,6 +21,8 @@ public class MainStage extends Stage {
 	
 	private Text welcomeText = new Text();
 	private Text resultText = new Text();
+	private Text maxNumberValidText = new Text();
+	private Text totalMathValidText = new Text();
 	private Text outFileText = new Text();
 	private TextField maxNumber     = new TextField();
   private TextField totalMath   = new TextField();
@@ -54,11 +56,19 @@ public class MainStage extends Stage {
   	level.setMaxWidth(100);
   	welcomeText.setWrappingWidth(150);
   	resultText.setWrappingWidth(150);
-  	outFileText.setWrappingWidth(150);
+  	maxNumberValidText.setWrappingWidth(150);
+  	totalMathValidText.setWrappingWidth(150);
+  	outFileText.setWrappingWidth(200);
   	mathAddition.setMaxWidth(100);
   	mathSubtraction.setMaxWidth(100);
   	mathMultiplication.setMaxWidth(100);
   	mathDivision.setMaxWidth(100);
+  	
+  	resultText.setFill(Color.RED);
+  	maxNumberValidText.setFill(Color.RED);
+  	totalMathValidText.setFill(Color.RED);
+  	outFileText.setFill(Color.RED);
+  	
   	level.setVisibleRowCount(3);
     level.getItems().addAll(Arrays.asList(LEVELS));
     level.setValue(2);
@@ -93,12 +103,14 @@ public class MainStage extends Stage {
     maxNumber.setText("100");
     grid.add(maxNumberLabel, 0, line);
     grid.add(maxNumber, 1, line);
+    grid.add(maxNumberValidText, 2, line);
     line++;
     
     //------------ Set total math ---------------
     totalMath.setText("50");
     grid.add(totalMathLabel, 0, line);
     grid.add(totalMath, 1, line);
+    grid.add(totalMathValidText, 2, line);
     line++;
         
     //------------ Select Math types ---------------
@@ -127,37 +139,44 @@ public class MainStage extends Stage {
     Button genBtn = new Button("生成");
     genBtn.setPrefWidth(60);
     genBtn.setOnAction((actionEvent)->{
+    	cleanTextFields();
       Main.getController().handleSubmitButtonAction(actionEvent);
     });    
     grid.add(genBtn, 1, line);
     line++;
     
     //------------ result text (if any) -----------------
-    resultText.setFill(Color.RED);
-    grid.add(resultText, 1, line);
-    line++;
     
-    outFileText.setFill(Color.RED);
+    grid.add(resultText, 1, line);
+    //line++;
+    
     outFileText.setOnMouseClicked((actionEvent)->{
       openGeneratedTestFolder();
     });
-    grid.add(outFileText, 1, line);
+    grid.add(outFileText, 2, line);
     
     this.show();
     System.out.println("show Main Stage!!!");
     return true;
   }
   
-  private void openGeneratedTestFolder () {
-  	if (Main.getController().getOutputFile()!=null)
-	    try {
-	      ProcessBuilder pb = new ProcessBuilder("open", Main.getController().getOutputFile().toString());
-	      pb.start();
-	    } catch (IOException e) {
-	      System.out.println(e);
-	    }
-  }
+	private void openGeneratedTestFolder() {
+		if (Main.getController().getOutputFile() != null)
+			try {
+				ProcessBuilder pb = new ProcessBuilder("open", Main.getController().getOutputFile().toString());
+				pb.start();
+			} catch (IOException e) {
+				System.out.println(e);
+			}
+	}
 
+	private void cleanTextFields() {
+		maxNumberValidText.setText("");
+		totalMathValidText.setText("");
+		resultText.setText("");
+		outFileText.setText("");
+	}
+	
 	protected Text getResultText() {
 		return resultText;
 	}
@@ -170,23 +189,13 @@ public class MainStage extends Stage {
 		return totalMath;
 	}
 
-//	protected CheckBox getMathAddition() {
-//		return mathAddition;
-//	}
-//
-//	protected CheckBox getMathSubtraction() {
-//		return mathSubtraction;
-//	}
-//
-//	protected CheckBox getMathMultiplication() {
-//		return mathMultiplication;
-//	}
-//
-//	protected CheckBox getMathDivision() {
-//		return mathDivision;
-//	}
-	
-	
+	protected Text getMaxNumberValidText() {
+		return maxNumberValidText;
+	}
+
+	protected Text getTotalMathValidText() {
+		return totalMathValidText;
+	}
 
 	protected ComboBox<Integer> getLevel() {
 		return level;

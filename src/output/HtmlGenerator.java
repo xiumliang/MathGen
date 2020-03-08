@@ -24,7 +24,6 @@ public class HtmlGenerator extends RandomGen.Generator {
     genHader(maxNumber, exTotal);
 
     int rowCount = NUM_OF_EXERCISE/EXERCISE_PER_LINE;
-    
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
     for (int i=1; i<=rowCount; i++) {
     	//generate a line of fomular
@@ -65,7 +64,7 @@ public class HtmlGenerator extends RandomGen.Generator {
     }
     htmlBuff.append("</tr>");
   }
-  
+
   protected String parseFomular (MathFomular f) {
     return getAllignStr(f.getIntFirstNum(), SPACE) + SPACE 
     		+ f.getOperator().getMathOperator()+ SPACE
