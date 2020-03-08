@@ -143,7 +143,7 @@ public class RandomGen {
     public void addOperator(Operator operator) {
       this.operatorList.add(operator);
     }
-
+    
     public void setLevel(int level) {
       this.level = level;
     }

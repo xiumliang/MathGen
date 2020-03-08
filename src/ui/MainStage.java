@@ -1,7 +1,9 @@
 package ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,9 +25,10 @@ public class MainStage extends Stage {
 	private TextField maxNumber     = new TextField();
   private TextField totalMath   = new TextField();
   
+  List<CheckBox> mathTypeList = new ArrayList();
   CheckBox mathAddition = new CheckBox("+");
   CheckBox mathSubtraction = new CheckBox("-");
-  CheckBox mathMultiplication = new CheckBox("x (1-9 only)");
+  CheckBox mathMultiplication = new CheckBox("×");
   CheckBox mathDivision = new CheckBox("÷");
   
   ComboBox<Integer> level = new ComboBox<Integer>();
@@ -59,11 +62,15 @@ public class MainStage extends Stage {
   	level.setVisibleRowCount(3);
     level.getItems().addAll(Arrays.asList(LEVELS));
     level.setValue(2);
+    
+    mathTypeList.add(mathAddition);
+    mathTypeList.add(mathSubtraction);
+    mathTypeList.add(mathMultiplication);
+    mathTypeList.add(mathDivision);
   }
   
   
-  public boolean showStage () {
-    
+  public boolean showStage () {    
     GridPane grid = new GridPane();
     grid.setHgap(10);
     grid.setVgap(10);
@@ -163,24 +170,30 @@ public class MainStage extends Stage {
 		return totalMath;
 	}
 
-	protected CheckBox getMathAddition() {
-		return mathAddition;
-	}
-
-	protected CheckBox getMathSubtraction() {
-		return mathSubtraction;
-	}
-
-	protected CheckBox getMathMultiplication() {
-		return mathMultiplication;
-	}
-
-	protected CheckBox getMathDivision() {
-		return mathDivision;
-	}
+//	protected CheckBox getMathAddition() {
+//		return mathAddition;
+//	}
+//
+//	protected CheckBox getMathSubtraction() {
+//		return mathSubtraction;
+//	}
+//
+//	protected CheckBox getMathMultiplication() {
+//		return mathMultiplication;
+//	}
+//
+//	protected CheckBox getMathDivision() {
+//		return mathDivision;
+//	}
+	
+	
 
 	protected ComboBox<Integer> getLevel() {
 		return level;
+	}
+
+	protected List<CheckBox> getMathTypeList() {
+		return mathTypeList;
 	}
 
 	protected Text getOutFileText() {

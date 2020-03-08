@@ -1,20 +1,19 @@
 package ui;
 
 import javafx.event.ActionEvent;
-import javafx.scene.control.TextField;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import math.OperatorEnum;
 import math.RandomGen;
-import page.TextGenerator;
-import page.HtmlGenerator;
+import output.HtmlGenerator;
+import output.TextGenerator;
 
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Controller {
 	private File outputFile = null;
@@ -39,7 +38,6 @@ public class Controller {
     }
 
     RandomGen.Generator generator = null;
-
     String extName = getExtName(file);
 		if (extName == null) {
 			getMainStage().getResultText().setText("");
@@ -48,29 +46,18 @@ public class Controller {
 			generator = new HtmlGenerator();
 		else
 			generator = new TextGenerator();
+		
+		List<CheckBox> selectedTypeList = getMainStage().getMathTypeList().stream()
+		    .filter((mathType) -> mathType.isSelected()).collect(Collectors.toList());		
+		for (CheckBox cb: selectedTypeList) 
+			generator.addOperator(OperatorEnum.retrieveOperator(cb.textProperty().getValue()));
 
-    if (getMainStage().getMathAddition().isSelected()) {
-      generator.addOperator(OperatorEnum.retrieveOperator('+'));
-    }
-    if (getMainStage().getMathSubtraction().isSelected()) {
-      generator.addOperator(OperatorEnum.retrieveOperator('-'));
-    }
-    if (getMainStage().getMathMultiplication().isSelected()) {
-      generator.addOperator(OperatorEnum.retrieveOperator('*'));
-    }
-//    if (math_subtraction.isSelected()) {
-//      generator.addOperator(OperatorFactory.getOperatorInstance('-'));
-//    }
-    
     generator.setLevel(Integer.parseInt(getMainStage().getLevel().getValue().toString()) );
-
     generator.generate(file, 
     		Integer.parseInt(getMainStage().getMaxNumber().getText()), 
     		Integer.parseInt(getMainStage().getTotalMath().getText()));
     
-    getMainStage().getResultText().setText(
-    		getMainStage().getTotalMath().getText()+"道习题已生成.");
-    
+    getMainStage().getResultText().setText(getMainStage().getTotalMath().getText()+"道习题已生成.");
     getMainStage().getOutFileText().setText("文件:"+file);
     outputFile = file;
     if (Desktop.isDesktopSupported())
@@ -114,14 +101,12 @@ public class Controller {
 
 
   private String getExtName(File file) {
-
     if (file == null)
       return null;
 
     String filename = file.toString();
     if (isNull(filename) || filename.indexOf('.')<0)
       return null;
-
 
     if ((filename != null) && (filename.length() > 0)) {
       int dot = filename.lastIndexOf('.');
@@ -139,4 +124,6 @@ public class Controller {
 	protected File getOutputFile() {
 		return outputFile;
 	}
+	
+	
 }

@@ -1,4 +1,4 @@
-package page;
+package output;
 
 import math.MathFomular;
 import math.RandomGen;
