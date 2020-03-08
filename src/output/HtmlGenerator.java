@@ -1,4 +1,4 @@
-package page;
+package output;
 
 import math.MathFomular;
 import math.RandomGen;
@@ -24,8 +24,7 @@ public class HtmlGenerator extends RandomGen.Generator {
     genHader(maxNumber, exTotal);
 
     int rowCount = NUM_OF_EXERCISE/EXERCISE_PER_LINE;
-
-    //htmlBuff.append("<H3 align='center'>"+ maxNumber+"以内加减法测试习题。共"+exTotal+"道题。</H3><HR>\r\n");
+    
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
     for (int i=1; i<=rowCount; i++) {
     	//generate a line of fomular
