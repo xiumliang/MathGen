@@ -1,33 +1,36 @@
 package output;
 
-import math.MathFomular;
-import math.RandomGen;
+import math.MathFomula;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Set;
 
 
-public class HtmlGenerator extends RandomGen.Generator {
+public class HtmlGeneratorOutput extends BaseGeneratorOutput{
   protected StringBuffer htmlBuff = null;
   private static int ROW_PER_PAGE = 25;
-  private static String SPACE = "&nbsp;";
+  public static int EXERCISE_PER_LINE = 2;
+  
+  protected static String SPACE = "&nbsp;";
 
-  public boolean generate(File dest, int maxNumber, int exTotal) {
+  @Override
+  public boolean genOutput(File dest, int maxNumber, int mathCount) {
     Writer out = null;
     htmlBuff = new StringBuffer();
-    MAX_ADD_LIMIT = MAX_SUB_LIMIT = maxNumber;
-    NUM_OF_EXERCISE = exTotal;
-    r2 = new RandomGen();
 
-    genHader(maxNumber, exTotal);
+    genHader(maxNumber, mathCount);
 
-    int rowCount = NUM_OF_EXERCISE/EXERCISE_PER_LINE;
+    int rowCount = mathCount/EXERCISE_PER_LINE;
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
-    for (int i=1; i<=rowCount; i++) {
+    
+    Set<MathFomula> mathSet = generate(dest, maxNumber, mathCount);
+    int i=1;
+    for (MathFomula f: mathSet) {
     	//generate a line of fomular
-      genHtmlTrOfExercise();
+      genHtmlTrOfExercise(f);
       addEmptyLline();
       if (i%ROW_PER_PAGE==0) {
         htmlBuff.append("</table>\r\n");
@@ -36,6 +39,7 @@ public class HtmlGenerator extends RandomGen.Generator {
           htmlBuff.append("<table border='2' align='center' rules='all' cellspacing='2'>\r\n");
         }
       }
+      i++;
     }
 
     genFooter();
@@ -57,20 +61,15 @@ public class HtmlGenerator extends RandomGen.Generator {
     return true;
   }
 
-  protected void genHtmlTrOfExercise() {
+  protected void genHtmlTrOfExercise(MathFomula f) {
     htmlBuff.append("<tr align='center' cellspacing='2'>\r\n");
     for (int i=0; i<EXERCISE_PER_LINE; i++) {
-      htmlBuff.append("<td align='center' cellspacing='2'>"+generateExercise()+"</td>\r\n");
+      htmlBuff.append("<td align='center' cellspacing='2'>"+parseFomula(f)+"</td>\r\n");
     }
     htmlBuff.append("</tr>");
   }
 
-  protected String parseFomular (MathFomular f) {
-    return getAllignStr(f.getIntFirstNum(), SPACE) + SPACE 
-    		+ f.getOperator().getMathOperator()+ SPACE
-    		+ getAllignStr(f.getIntSecondNum(), SPACE) + SPACE
-    		+ "="+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+SPACE+SPACE+ ")";
-  }
+
 
   protected void genHader(int maxNumber, int exTotal) {
     htmlBuff.append("<html><head>\n");
@@ -91,9 +90,14 @@ public class HtmlGenerator extends RandomGen.Generator {
     htmlBuff.append("</table></body>");
     htmlBuff.append("</html>");
   }
-
+  
   protected void addEmptyLline() {
     //do nothing
   }
+
+	@Override
+	protected String space() {
+		return SPACE;
+	}
 
 }
