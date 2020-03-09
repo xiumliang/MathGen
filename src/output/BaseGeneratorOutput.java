@@ -16,6 +16,8 @@ public abstract class BaseGeneratorOutput extends RandomGenerator{
   }
 	
   protected String parseFomula (MathFomula f) {
+  	if (f==null)
+  		System.out.println("null value of a math fomula.");
     return getAllignStr(f.getIntFirstNum()) + space() 
     		+ f.getOperator().getMathOperator()+ space()
     		+ getAllignStr(f.getIntSecondNum()) + space()
