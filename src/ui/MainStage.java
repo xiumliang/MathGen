@@ -84,8 +84,8 @@ public class MainStage extends Stage {
     GridPane grid = new GridPane();
     grid.setHgap(10);
     grid.setVgap(10);
-    grid.setStyle("-fx-padding: 10;" 
-        + "-fx-border-width: 10;" + "-fx-border-insets: 10;" + "-fx-border-radius: 5;");
+    grid.setStyle("-fx-padding: 10;" + "-fx-border-width: 10;" 
+        + "-fx-border-insets: 10;" + "-fx-border-radius: 5;");
     
     Scene mathDefineScene = new Scene(grid, 500, 360);
     mathDefineScene.setFill(Color.LIGHTGRAY);
@@ -146,14 +146,10 @@ public class MainStage extends Stage {
     line++;
     
     //------------ result text (if any) -----------------
-    
     grid.add(resultText, 1, line);
-    //line++;
     
-    outFileText.setOnMouseClicked((actionEvent)->{
-      openGeneratedTestFolder();
-    });
-    grid.add(outFileText, 2, line);
+		outFileText.setOnMouseClicked((actionEvent) -> openGeneratedTestFolder());
+		grid.add(outFileText, 2, line);
     
     this.show();
     System.out.println("show Main Stage!!!");

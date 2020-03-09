@@ -3,7 +3,7 @@ package math;
 /**
  * Created by liangzhang on 2019/6/13.
  */
-public class MathFomular {
+public class MathFomula {
 	
   private String firstNum;
   private String secondNum;
@@ -56,10 +56,10 @@ public class MathFomular {
   public boolean equals(Object o) {
     if (this == o)
       return false;
-    if (!(o instanceof MathFomular))
+    if (!(o instanceof MathFomula))
       return false;
 
-    MathFomular f = (MathFomular) o;
+    MathFomula f = (MathFomula) o;
 
     if (!firstNum.equals(f.firstNum))
       return false;

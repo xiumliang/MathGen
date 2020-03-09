@@ -4,9 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.CheckBox;
 import javafx.stage.FileChooser;
 import math.OperatorEnum;
-import math.RandomGen;
-import output.HtmlGenerator;
-import output.TextGenerator;
+import output.BaseGeneratorOutput;
+import output.HtmlGeneratorOutput;
+import output.TextGeneratorOutput;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -37,28 +37,27 @@ public class Controller {
       System.out.println(file);
     }
 
-    RandomGen.Generator generator = null;
+    BaseGeneratorOutput genOut = null;
     String extName = getExtName(file);
 		if (extName == null) {
 			getMainStage().getResultText().setText("");
 			return;
 		} else if ("html".equalsIgnoreCase(extName))
-			generator = new HtmlGenerator();
+			genOut = new HtmlGeneratorOutput();
 		else
-			generator = new TextGenerator();
+			genOut = new TextGeneratorOutput();
 		
 		List<CheckBox> selectedTypeList = getMainStage().getMathTypeList().stream()
 		    .filter((mathType) -> mathType.isSelected()).collect(Collectors.toList());		
 		for (CheckBox cb: selectedTypeList) 
-			generator.addOperator(OperatorEnum.retrieveOperator(cb.textProperty().getValue()));
+			genOut.addOperator(OperatorEnum.retrieveOperator(cb.textProperty().getValue()));
 
-    generator.setLevel(Integer.parseInt(getMainStage().getLevel().getValue().toString()) );
-    generator.generate(file, 
-    		Integer.parseInt(getMainStage().getMaxNumber().getText()), 
+		genOut.setLevel(Integer.parseInt(getMainStage().getLevel().getValue().toString()) );
+		genOut.generate(file, Integer.parseInt(getMainStage().getMaxNumber().getText()), 
     		Integer.parseInt(getMainStage().getTotalMath().getText()));
     
     getMainStage().getResultText().setText(getMainStage().getTotalMath().getText()+"道习题已生成.");
-    getMainStage().getOutFileText().setText("双击打卡文件:\r\n"+file);
+    getMainStage().getOutFileText().setText("双击打开文件:\r\n"+file);
     outputFile = file;
     if (Desktop.isDesktopSupported())
 	    try {
@@ -75,47 +74,41 @@ public class Controller {
         || (Integer.parseInt(getMainStage().getMaxNumber().getText())<5)){
     	getMainStage().getMaxNumberValidText().setText("最大数值填写有误,请填写5-100之间的数字");
       return false;
-    }
-
-    if (!isNumeric(getMainStage().getTotalMath().getText())
+    } else if (!isNumeric(getMainStage().getTotalMath().getText())
         || (Integer.parseInt(getMainStage().getTotalMath().getText())>1000)
         || (Integer.parseInt(getMainStage().getTotalMath().getText())<20)){
     	getMainStage().getTotalMathValidText().setText("题目数量填写有误,请填写20-1000之间的数字");
       return false;
-    }
-
-    return true;
+    } else
+    	return true;
   }
 
   private boolean isNumeric(String str){
     if (isNull(str))
       return false;
-
-    Pattern pattern = Pattern.compile("[0-9]*");
-    return pattern.matcher(str).matches();
+    
+    return Pattern.compile("[0-9]*").matcher(str).matches();
   }
 
   private boolean isNull(String str) {
     return (str ==null || str.length()==0);
   }
 
+	private String getExtName(File file) {
+		if (file == null)
+			return null;
 
-  private String getExtName(File file) {
-    if (file == null)
-      return null;
-
-    String filename = file.toString();
-    if (isNull(filename) || filename.indexOf('.')<0)
-      return null;
-
-    if ((filename != null) && (filename.length() > 0)) {
-      int dot = filename.lastIndexOf('.');
-      if ((dot >-1) && (dot < (filename.length() - 1))) {
-        return filename.substring(dot + 1);
-      }
-    }
-    return filename;
-  }
+		String filename = file.toString();
+		if (isNull(filename) || filename.indexOf('.') < 0)
+			return null;
+		else {
+			int dot = filename.lastIndexOf('.');
+			if ((dot > -1) && (dot < (filename.length() - 1))) {
+				return filename.substring(dot + 1);
+			}
+		}
+		return filename;
+	}
   
   private MainStage getMainStage() {
   	return Main.getMainStage();
@@ -124,6 +117,4 @@ public class Controller {
 	protected File getOutputFile() {
 		return outputFile;
 	}
-	
-	
 }
