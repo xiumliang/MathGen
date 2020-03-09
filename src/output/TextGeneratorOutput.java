@@ -14,8 +14,8 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
   private static final char LINE_SEPERATOR = '-';
   private static final char EXERCISE_SEPERATOR = '|';
   private static final int CELL_LENGTH = 18;
-  private static String SPACE = " ";
-  public static int MATH_PER_ROW = 4;
+  private static final int MATH_PER_ROW = 4;
+  private static final String SPACE = " ";
   
 
   @Override
@@ -51,10 +51,10 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
   }
 
   protected String parseFomular (MathFomula f) {
-    return getAllignStr(f.getIntFirstNum()) + SPACE 
-    		+ f.getOperator().getMathOperator() + SPACE 
-    		+ getAllignStr(f.getIntSecondNum()) + SPACE
-    		+ "="+ SPACE+"("+SPACE+SPACE+SPACE+ ")";
+    return getAllignStr(f.getIntFirstNum()) + space() 
+    		+ f.getOperator().getMathOperator() + space() 
+    		+ getAllignStr(f.getIntSecondNum()) + space()
+    		+ "="+ space()+"("+space()+space()+space()+ ")";
   }
   
   private void printLineOfMath(Queue<MathFomula> mathQueue) {
@@ -71,7 +71,7 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
   }
 
   private void printALine(int length) {
-    mathBuff.append(" ");
+  	printSpace();
     for (int i = 0; i < CELL_LENGTH*MATH_PER_ROW; i++) {
       mathBuff.append(LINE_SEPERATOR);
     }
@@ -85,13 +85,12 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
   }
 
   private void printSpace() {
-    mathBuff.append(" ");
+    mathBuff.append(space());
   }
 
 	@Override
 	protected String space() {
 		return SPACE;
 	}
-
 
 }

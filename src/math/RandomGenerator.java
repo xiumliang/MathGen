@@ -2,19 +2,16 @@ package math;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class RandomGenerator {
-	public int MAX_ADD_LIMIT = 0;
-  public int MAX_SUB_LIMIT = 0;
-  public int NUM_OF_EXERCISE = 0;
-  public int REMOVE_ZERO_RATIO = 10;
-  public int REMOVE_ONE_RATIO = 5;
+	private int maxAddLimit = 0;
+  private int maxSubLimit = 0;
+  private int REMOVE_ZERO_RATIO = 10;
+  private int REMOVE_ONE_RATIO = 5;
   
   private static Random r = null;
   private List<Operator> operatorList = new ArrayList<Operator>();
@@ -37,7 +34,7 @@ public class RandomGenerator {
  
 	public Queue<MathFomula> generate(File dest, int maxNumber, int mathCount) {
 		mathQueue = new LinkedBlockingQueue();
-		MAX_ADD_LIMIT = MAX_SUB_LIMIT = maxNumber;
+		maxAddLimit = maxSubLimit = maxNumber;
 		for (int i = 0; i <= mathCount; i++) {
 			mathQueue.add(generateExercise());
 		}
@@ -46,19 +43,19 @@ public class RandomGenerator {
 
 	public MathFomula generateAddition() {
 		MathFomula f = new MathFomula();
-		int a = r.nextInt(MAX_ADD_LIMIT + 1);
-		int b = r.nextInt(MAX_ADD_LIMIT + 1 - a);
+		int a = r.nextInt(maxAddLimit + 1);
+		int b = r.nextInt(maxAddLimit + 1 - a);
 
 		for (int i = 0; checkRemoveRatio(i, a, b); i++) {
-			a = r.nextInt(MAX_ADD_LIMIT + 1);
-			b = r.nextInt(MAX_ADD_LIMIT + 1 - a);
+			a = r.nextInt(maxAddLimit + 1);
+			b = r.nextInt(maxAddLimit + 1 - a);
 		}
 
 		// simply skip 1 + 1 =, because it is useless for an excercise.
 		if ((a == 1) && (b == 1)) {
 			for (int i = 0; checkRemoveRatio(i, a, b); i++) {
-				a = r.nextInt(MAX_ADD_LIMIT + 1);
-				b = r.nextInt(MAX_ADD_LIMIT + 1 - a);
+				a = r.nextInt(maxAddLimit + 1);
+				b = r.nextInt(maxAddLimit + 1 - a);
 			}
 		}
 
@@ -70,11 +67,11 @@ public class RandomGenerator {
 
   public MathFomula generateSubtraction() {
   	MathFomula f = new MathFomula();
-    int a = r.nextInt(MAX_SUB_LIMIT)+1;
+    int a = r.nextInt(maxSubLimit)+1;
     int b = r.nextInt(a);
 
     for(int i=0; checkRemoveRatio(i, a, b); i++) {
-      a = r.nextInt(MAX_SUB_LIMIT)+1;
+      a = r.nextInt(maxSubLimit)+1;
       b = r.nextInt(a);
     }
 

@@ -60,7 +60,6 @@ public class MathFomula {
       return false;
 
     MathFomula f = (MathFomula) o;
-
     if (!firstNum.equals(f.firstNum))
       return false;
     if (!secondNum.equals(f.secondNum))
