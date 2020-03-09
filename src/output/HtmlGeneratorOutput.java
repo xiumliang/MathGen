@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Set;
+import java.util.Queue;
 
 
 public class HtmlGeneratorOutput extends BaseGeneratorOutput{
@@ -26,12 +26,10 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
     int rowCount = mathCount/EXERCISE_PER_LINE;
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
     
-    Set<MathFomula> mathSet = generate(dest, maxNumber, mathCount);
-    int i=1;
-    for (MathFomula f: mathSet) {
+    Queue<MathFomula> mathQueue = generate(dest, maxNumber, mathCount);
+    for (int i=1; i<=rowCount; i++) {
     	//generate a line of fomular
-      genHtmlTrOfExercise(f);
-      addEmptyLline();
+      genHtmlTrOfExercise(mathQueue);
       if (i%ROW_PER_PAGE==0) {
         htmlBuff.append("</table>\r\n");
         htmlBuff.append("<div class='pagebreak'></div>");
@@ -39,11 +37,9 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
           htmlBuff.append("<table border='2' align='center' rules='all' cellspacing='2'>\r\n");
         }
       }
-      i++;
     }
 
     genFooter();
-
     try {
       out = new FileWriter(dest);
       out.write(htmlBuff.toString());
@@ -61,15 +57,13 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
     return true;
   }
 
-  protected void genHtmlTrOfExercise(MathFomula f) {
+  protected void genHtmlTrOfExercise(Queue<MathFomula> mathQueue) {
     htmlBuff.append("<tr align='center' cellspacing='2'>\r\n");
     for (int i=0; i<EXERCISE_PER_LINE; i++) {
-      htmlBuff.append("<td align='center' cellspacing='2'>"+parseFomula(f)+"</td>\r\n");
+      htmlBuff.append("<td align='center' cellspacing='2'>"+parseFomula(mathQueue.poll())+"</td>\r\n");
     }
     htmlBuff.append("</tr>");
   }
-
-
 
   protected void genHader(int maxNumber, int exTotal) {
     htmlBuff.append("<html><head>\n");
@@ -89,10 +83,6 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
   protected void genFooter() {
     htmlBuff.append("</table></body>");
     htmlBuff.append("</html>");
-  }
-  
-  protected void addEmptyLline() {
-    //do nothing
   }
 
 	@Override

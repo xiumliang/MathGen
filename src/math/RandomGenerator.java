@@ -4,8 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class RandomGenerator {
 	public int MAX_ADD_LIMIT = 0;
@@ -18,7 +20,7 @@ public class RandomGenerator {
   private List<Operator> operatorList = new ArrayList<Operator>();
   private int level;
   
-  Set<MathFomula> mathSet = null;
+  Queue<MathFomula> mathQueue = null;
 
   public RandomGenerator() {
     r = new Random(getSeed());
@@ -33,13 +35,13 @@ public class RandomGenerator {
     return (int) (seed%10000);
   }
  
-	public Set<MathFomula> generate(File dest, int maxNumber, int mathCount) {
-		mathSet = new HashSet(mathCount);
+	public Queue<MathFomula> generate(File dest, int maxNumber, int mathCount) {
+		mathQueue = new LinkedBlockingQueue();
 		MAX_ADD_LIMIT = MAX_SUB_LIMIT = maxNumber;
-		for (int i = 0; i < mathCount; i++) {
-			mathSet.add(generateExercise());
+		for (int i = 0; i <= mathCount; i++) {
+			mathQueue.add(generateExercise());
 		}
-		return mathSet;
+		return mathQueue;
 	}
 
 	public MathFomula generateAddition() {
@@ -114,7 +116,7 @@ public class RandomGenerator {
     		default :
     				System.out.println("Invalid operator!");
     	}
-    } while (mathSet.contains(genedMath));
+    } while (mathQueue.contains(genedMath));
     return genedMath;
   }
   

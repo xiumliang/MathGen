@@ -6,14 +6,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Queue;
 
 public class TextGeneratorOutput extends BaseGeneratorOutput{
 
   private StringBuffer mathBuff = null;
   private static final char LINE_SEPERATOR = '-';
   private static final char EXERCISE_SEPERATOR = '|';
+  private static final int CELL_LENGTH = 18;
   private static String SPACE = " ";
-  public static int EXERCISE_PER_LINE = 2;
+  public static int MATH_PER_ROW = 4;
+  
 
   @Override
   public boolean genOutput(File dest, int maxNumber, int mathCount){
@@ -24,8 +27,12 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
       out = new FileWriter(dest);
       out.write("  "+maxNumber+"以内加减法测试习题。共"+mathCount+"道题。\r\n");
       printALine(38);
-      for (int i=0; i<(mathCount/EXERCISE_PER_LINE); i++) {
-        printLineOfMath();
+      
+      Queue<MathFomula> mathQueue = generate(dest, maxNumber, mathCount);
+      int rowCount = mathCount/MATH_PER_ROW;
+      		
+      for (int i=0; i<rowCount; i++) {
+        printLineOfMath(mathQueue);
         printALine(38);
       }
       out.write(mathBuff.toString());
@@ -40,33 +47,32 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
         e.printStackTrace();
       }
     }
-
     return true;
   }
 
   protected String parseFomular (MathFomula f) {
     return getAllignStr(f.getIntFirstNum()) + SPACE 
-    		+ f.getOperator().getMathOperator()
+    		+ f.getOperator().getMathOperator() + SPACE 
     		+ getAllignStr(f.getIntSecondNum()) + SPACE
-    		+ " = "+ SPACE+"("+SPACE+SPACE+SPACE+SPACE+ ")";
+    		+ "="+ SPACE+"("+SPACE+SPACE+SPACE+ ")";
   }
   
-  private void printLineOfMath() {
-    for (int i=0; i<EXERCISE_PER_LINE; i++) {
+  private void printLineOfMath(Queue<MathFomula> mathQueue) {
+    for (int i=0; i<MATH_PER_ROW; i++) {
       printSpliter();
-      //printExerciseToText(generateExercise());
+      printMathToText(parseFomular(mathQueue.poll()));
     }
     printSpliter();
     mathBuff.append("\r\n");
   }
 
-  private void printMathToText(String math) {
-    mathBuff.append(math);
+  private void printMathToText(String mathString) {
+    mathBuff.append(mathString);
   }
 
   private void printALine(int length) {
-    mathBuff.append("  ");
-    for (int i = 0; i < length; i++) {
+    mathBuff.append(" ");
+    for (int i = 0; i < CELL_LENGTH*MATH_PER_ROW; i++) {
       mathBuff.append(LINE_SEPERATOR);
     }
     mathBuff.append(LINE_SEPERATOR+"\r\n");

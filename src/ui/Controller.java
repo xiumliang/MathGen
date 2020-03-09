@@ -53,7 +53,7 @@ public class Controller {
 			genOut.addOperator(OperatorEnum.retrieveOperator(cb.textProperty().getValue()));
 
 		genOut.setLevel(Integer.parseInt(getMainStage().getLevel().getValue().toString()) );
-		genOut.generate(file, Integer.parseInt(getMainStage().getMaxNumber().getText()), 
+		genOut.genOutput(file, Integer.parseInt(getMainStage().getMaxNumber().getText()), 
     		Integer.parseInt(getMainStage().getTotalMath().getText()));
     
     getMainStage().getResultText().setText(getMainStage().getTotalMath().getText()+"道习题已生成.");
