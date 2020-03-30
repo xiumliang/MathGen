@@ -28,7 +28,7 @@ public class TextGeneratorOutput extends BaseGeneratorOutput{
       out.write("  "+maxNumber+"以内加减法测试习题。共"+mathCount+"道题。\r\n");
       printALine(38);
       
-      Queue<MathFomula> mathQueue = generate(dest, maxNumber, mathCount);
+      Queue<MathFomula> mathQueue = generate(maxNumber, mathCount);
       int rowCount = mathCount/MATH_PER_ROW;
       		
       for (int i=0; i<rowCount; i++) {

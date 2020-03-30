@@ -25,7 +25,7 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
     int rowCount = mathCount/EXERCISE_PER_LINE;
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
     
-    Queue<MathFomula> mathQueue = generate(dest, maxNumber, mathCount);
+    Queue<MathFomula> mathQueue = generate(maxNumber, mathCount);
     for (int i=1; i<=rowCount; i++) {
     	//generate a line of fomular
       genHtmlTrOfExercise(mathQueue);

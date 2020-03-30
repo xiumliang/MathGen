@@ -32,7 +32,7 @@ public class RandomGenerator {
     return (int) (seed%10000);
   }
  
-	public Queue<MathFomula> generate(File dest, int maxNumber, int mathCount) {
+	public Queue<MathFomula> generate(int maxNumber, int mathCount) {
 		mathQueue = new LinkedBlockingQueue();
 		maxAddLimit = maxSubLimit = maxNumber;
 		for (int i = 0; i <= mathCount; i++) {
@@ -96,6 +96,48 @@ public class RandomGenerator {
     f.setSecondNum(String.valueOf(b));
     return f;
   }
+  
+  public MathFomula generateDivision() {
+  	MathFomula f = null;
+  	switch (level) {
+	  	case 1:
+	  		f= generateNonExactDivision();
+	  		break;
+	  	case 2:
+	  		if (r.nextBoolean())
+	  			f = generateNonExactDivision();
+	  		else
+	  			f = generateExactDivision();
+	  		break;
+	  	case 3:
+	  		f= generateExactDivision();
+	  		break;
+  	}
+    return f;
+  }
+
+  public MathFomula generateExactDivision() {
+  	MathFomula f = new MathFomula();
+    int a = r.nextInt(9)+1;
+    int b = r.nextInt(9)+1;
+
+    for(int i=0; checkRemoveRatio(i, a, b); i++) {
+      a = r.nextInt(9)+1;
+      b = r.nextInt(9)+1;
+    }
+
+    f.setFirstNum(String.valueOf(a*b));
+    f.setOperator(OperatorEnum.DIV);
+    f.setSecondNum(String.valueOf(a));
+    return f;
+  }
+  
+  public MathFomula generateNonExactDivision() {
+  	MathFomula f = generateExactDivision();
+    int c = r.nextInt(f.getIntSecondNum()-1)+1;    
+    f.setFirstNum(String.valueOf(f.getIntFirstNum()+c));
+    return f;
+  }
  
   public MathFomula generateExercise() {
   	MathFomula genedMath = null;
@@ -109,6 +151,9 @@ public class RandomGenerator {
     			break;
     		case MUL:
     			genedMath = generateMultiplication();
+    			break;
+    		case DIV:
+    			genedMath = generateDivision();
     			break;
     		default :
     				System.out.println("Invalid operator!");
