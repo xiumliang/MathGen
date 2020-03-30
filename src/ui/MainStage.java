@@ -11,6 +11,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -50,6 +51,7 @@ public class MainStage extends Stage {
   	maxNumberLabel.setMinWidth(80);
   	totalMathLabel.setWrapText(false);
   	mathTypeLabel.setWrapText(false);
+  	levelLabel.setWrapText(true);
     
   	maxNumber.setMaxWidth(50);
   	totalMath.setMaxWidth(50);
@@ -90,10 +92,9 @@ public class MainStage extends Stage {
     Scene mathDefineScene = new Scene(grid, 500, 360);
     mathDefineScene.setFill(Color.LIGHTGRAY);
     this.setScene(mathDefineScene);
-    this.setTitle("ExerciseGen");
+    this.setTitle("算数练习生成器");
     
     int line = 0;
-    
     //------------- welcome text ---------------
     welcomeText.setText("请根据需求选择相关参数");   
     grid.add(welcomeText, 1, line);
@@ -125,11 +126,12 @@ public class MainStage extends Stage {
     
     grid.add(mathMultiplication, 1, line);
     grid.add(mathDivision, 2, line);
-    mathDivision.setDisable(true);
+    //mathDivision.setDisable(true);
     line++;
     
     
    //------------ Set level ---------------
+    Tooltip.install(level, new Tooltip("1-除法都有余数，2-部分除法可以整除， 3-除法都可以整除"));
     level.setPromptText("难度(1-最难,3-简单)");
     grid.add(levelLabel, 0, line);
     grid.add(level, 1, line);
@@ -145,14 +147,12 @@ public class MainStage extends Stage {
     grid.add(genBtn, 1, line);
     line++;
     
-    //------------ result text (if any) -----------------
+    //------------ result text & out text (if any) -----------------
     grid.add(resultText, 1, line);
-    
 		outFileText.setOnMouseClicked((actionEvent) -> openGeneratedTestFolder());
 		grid.add(outFileText, 2, line);
     
     this.show();
-    System.out.println("show Main Stage!!!");
     return true;
   }
   

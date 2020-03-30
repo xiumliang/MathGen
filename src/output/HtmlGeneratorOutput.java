@@ -10,11 +10,10 @@ import java.util.Queue;
 
 
 public class HtmlGeneratorOutput extends BaseGeneratorOutput{
-  protected StringBuffer htmlBuff = null;
-  private static int ROW_PER_PAGE = 25;
-  public static int EXERCISE_PER_LINE = 2;
-  
-  protected static String SPACE = "&nbsp;";
+  private StringBuffer htmlBuff = null;
+  private static final int ROW_PER_PAGE = 25;
+  private static final int EXERCISE_PER_LINE = 2;
+  private static final String SPACE = "&nbsp;";
 
   @Override
   public boolean genOutput(File dest, int maxNumber, int mathCount) {
@@ -26,7 +25,7 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
     int rowCount = mathCount/EXERCISE_PER_LINE;
     htmlBuff.append("<body><table border='2' align='center' rules='all' cellspacing='2'>\r\n");
     
-    Queue<MathFomula> mathQueue = generate(dest, maxNumber, mathCount);
+    Queue<MathFomula> mathQueue = generate(maxNumber, mathCount);
     for (int i=1; i<=rowCount; i++) {
     	//generate a line of fomular
       genHtmlTrOfExercise(mathQueue);
@@ -47,12 +46,13 @@ public class HtmlGeneratorOutput extends BaseGeneratorOutput{
       e.printStackTrace();
       return false;
     } finally {
-      htmlBuff = null;
       try {
         out.close();
       } catch (IOException e) {
         e.printStackTrace();
       }
+			htmlBuff = null;
+			out = null;
     }
     return true;
   }
