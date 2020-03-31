@@ -1,6 +1,5 @@
 package math;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -118,13 +117,8 @@ public class RandomGenerator {
 
   public MathFomula generateExactDivision() {
   	MathFomula f = new MathFomula();
-    int a = r.nextInt(9)+1;
-    int b = r.nextInt(9)+1;
-
-    for(int i=0; checkRemoveRatio(i, a, b); i++) {
-      a = r.nextInt(9)+1;
-      b = r.nextInt(9)+1;
-    }
+    int a = r.nextInt(8)+2;
+    int b = r.nextInt(8)+2;
 
     f.setFirstNum(String.valueOf(a*b));
     f.setOperator(OperatorEnum.DIV);
@@ -158,8 +152,23 @@ public class RandomGenerator {
     		default :
     				System.out.println("Invalid operator!");
     	}
-    } while (mathQueue.contains(genedMath));
+    } while (hasDuplicateInPage(genedMath));
     return genedMath;
+  }
+  
+  
+  private boolean hasDuplicateInPage(MathFomula math) {
+	  if (mathQueue.size() < 2)
+		  return false;
+	  
+	  Object[] mathArray = mathQueue.toArray();
+	  int checkLength = Math.min(mathArray.length, 50);
+	  for (int i=0; i<checkLength; i++) {
+		  MathFomula tmpF = (MathFomula) mathArray[mathArray.length-1-i];
+		  if (tmpF.equals(math) )
+			  return true;
+	  }
+	  return false;
   }
   
   private Operator randomOperator() {
